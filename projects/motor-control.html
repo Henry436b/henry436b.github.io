@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Closed-Loop DC Motor Control — Henry Acquaye</title>
+  <meta name="description" content="Cascaded current and position PID control of a DC motor on a Raspberry Pi Pico 2, with a Python tuning client.">
+  <meta property="og:image" content="../assets/projects/motor-control/cubic-tuning.webp">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <script>document.documentElement.dataset.theme = localStorage.getItem('theme') || 'dark';</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="../" aria-label="Home"><span class="logo-mark">HA</span></a>
+      <nav class="nav" aria-label="Main">
+        <a href="../#projects" class="active">Work</a>
+        <a href="../#skills">Skills</a>
+        <a href="../#about">About</a>
+        <a href="../files/resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </nav>
+      <button class="theme-btn" aria-label="Toggle light / dark theme">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="crumbs"><a href="../#projects">← All projects</a></div>
+
+    <section class="p-hero reveal">
+      <span class="eyebrow"><b>ME 333</b> · Mechatronics</span>
+      <h1>Closed-Loop DC Motor Control</h1>
+      <p class="lede">Cascaded current and position control for a brushed DC motor on a Raspberry Pi Pico 2. A 1&nbsp;kHz current loop runs inside a 200&nbsp;Hz position loop, and a Python client sends trajectories and plots the results.</p>
+      <div class="chips">
+        <span class="chip red">C / Pico SDK</span><span class="chip">Python</span><span class="chip">PID</span>
+        <span class="chip">DRV8833</span><span class="chip">INA219</span><span class="chip">Quadrature encoder</span>
+      </div>
+    </section>
+
+    <div class="video-split reveal">
+      <video src="../assets/projects/motor-control/demo.mp4" poster="../assets/projects/motor-control/poster.webp" controls playsinline preload="metadata"></video>
+      <div>
+        <span class="eyebrow">Demo · 4:35</span>
+        <h2 style="font:700 28px/1.15 var(--font-display);margin:8px 0 12px">Walkthrough &amp; live test</h2>
+        <p style="color:var(--ink-2)">I walk through the position-control code, then run a cubic trajectory on the real motor from the Python client. The reference-versus-measured plot and its score appear at the end of the run.</p>
+        <p class="note">Tip: skip to about 2:10 to see the motor track the trajectory.</p>
+      </div>
+    </div>
+
+    <div class="specs reveal">
+      <div class="spec"><span class="eyebrow">Controller</span><div>Raspberry Pi Pico 2 (RP2350)</div></div>
+      <div class="spec"><span class="eyebrow">Loops</span><div>PI current @ 1 kHz<br>PID position @ 200 Hz</div></div>
+      <div class="spec"><span class="eyebrow">Sensing</span><div>INA219 current sensor<br>1336 CPR encoder</div></div>
+      <div class="spec"><span class="eyebrow">Best result</span><div>1.98° mean tracking error</div></div>
+    </div>
+
+    <div class="p-layout">
+      <nav class="toc" aria-label="On this page">
+        <a href="#overview">Overview</a>
+        <a href="#hardware">Hardware</a>
+        <a href="#architecture">Control architecture</a>
+        <a href="#tuning">Tuning &amp; results</a>
+        <a href="#playground">Try it: PID playground</a>
+        <a href="#code">Code</a>
+        <a href="#takeaways">Takeaways</a>
+      </nav>
+
+      <article class="prose">
+        <section id="overview" class="reveal">
+          <h2><span class="num">01</span>Overview</h2>
+          <p>The goal was to make a DC motor follow a commanded angle trajectory accurately. Motor torque is proportional to current, so the controller is split in two: an <b>inner loop</b> regulates motor current (torque), and an <b>outer loop</b> decides what current is needed to reach the desired angle.</p>
+          <p>Everything runs on the Pico 2 using hardware-timer interrupts. A menu-driven Python client on the laptop talks to the board over USB serial. It sets gains, loads step or cubic trajectories, runs tests and plots the reference against the measured response with a score (mean absolute error).</p>
+        </section>
+
+        <section id="hardware" class="reveal">
+          <h2><span class="num">02</span>Hardware</h2>
+          <ul class="hw">
+            <li><b>Pico 2</b><span>Runs both control loops and the serial command interface</span></li>
+            <li><b>DRV8833 H-bridge</b><span>Two PWM channels (GP16/GP17) set direction and duty cycle</span></li>
+            <li><b>INA219</b><span>I²C current sensor in series with the motor (GP14/GP15)</span></li>
+            <li><b>Encoder</b><span>334 PPR × 4 quadrature = 1336 counts/rev (GP18/GP19)</span></li>
+          </ul>
+          <figure class="figure">
+            <img class="zoomable" src="../assets/projects/motor-control/circuit.webp" alt="Hand-drawn circuit diagram: Pico 2, INA219, DRV8833 and encoder motor" loading="lazy" style="max-width:560px">
+            <figcaption><b>Circuit diagram.</b> The INA219 sits between the H-bridge output and the motor so it measures the actual winding current. Click to enlarge.</figcaption>
+          </figure>
+        </section>
+
+        <section id="architecture" class="reveal">
+          <h2><span class="num">03</span>Control architecture</h2>
+          <p>The firmware is a state machine (<code>IDLE → PWM → ITEST → HOLD → TRACK</code>) driven by two repeating timers:</p>
+          <ul>
+            <li><b>Current loop (1 kHz).</b> Reads the INA219, computes <code>u = Kp·e + Ki·Σe</code>, clamps it to ±100% duty and sets the H-bridge PWM.</li>
+            <li><b>Position loop (200 Hz).</b> Converts encoder counts to degrees, runs PID against the next trajectory point and outputs the <i>desired current</i> for the inner loop. The D-term acts on the measured angle instead of the error, which avoids derivative kick on step inputs.</li>
+            <li><b>Logging.</b> Desired and actual values go into arrays during a run and are streamed back to Python afterwards, so serial I/O never interrupts the control timing.</li>
+          </ul>
+          <figure class="figure">
+            <img class="zoomable" src="../assets/projects/motor-control/itest-cubic.webp" alt="Current loop square-wave test, score 8.51" loading="lazy">
+            <figcaption><b>Inner-loop check (ITEST).</b> A ±100 mA square wave with Kp = 0.095 and Ki = 0.093. The current settles within a few samples of each edge (score 8.51 mA).</figcaption>
+          </figure>
+        </section>
+
+        <section id="tuning" class="reveal">
+          <h2><span class="num">04</span>Tuning &amp; results</h2>
+          <p>With the current loop working, I tuned the position gains on step and cubic trajectories (0° → 90° → hold → 0° over 3 s). The score is the mean absolute error in degrees.</p>
+
+          <div class="callouts">
+            <div class="callout"><b>19.8<small>°</small></b><span>cubic, first gains</span></div>
+            <div class="callout"><b>3.19<small>°</small></b><span>Kp 42 · Kd 28 · Ki 0.02</span></div>
+            <div class="callout good"><b>1.98<small>°</small></b><span>Kp 100 · Kd 65 · Ki 0.02</span></div>
+          </div>
+
+          <h3>Before → after (drag the slider)</h3>
+          <div class="compare" aria-label="Before and after tuning comparison">
+            <span class="lbl l">Before · 19.8°</span><span class="lbl r">After · 1.98°</span>
+            <img src="../assets/projects/motor-control/cubic-untuned.webp" alt="Cubic trajectory before tuning: large lag and overshoot">
+            <div class="after"><img src="../assets/projects/motor-control/cubic-tuning.webp" alt="Cubic trajectory after tuning: near-perfect tracking"></div>
+            <div class="handle"></div>
+          </div>
+          <p class="note">Red = reference, blue = measured angle. Both images use the same trajectory.</p>
+
+          <h3>Step response</h3>
+          <p>Step inputs showed the trade-off clearly. Low gains (Kp 5, Kd 2) gave a slow rise and about 25% overshoot. Raising Kp without enough damping made the overshoot worse. Increasing <b>Kd together with Kp</b> is what finally removed the oscillation on the cubic trajectory.</p>
+          <div class="fig-row">
+            <figure class="figure">
+              <img class="zoomable" src="../assets/projects/motor-control/step-tests.webp" alt="Step response with Kp 5 Kd 2" loading="lazy">
+              <figcaption><b>Step</b>, Kp 5 · Kd 2 · Ki 0 (score 17.7°)</figcaption>
+            </figure>
+            <figure class="figure">
+              <img class="zoomable" src="../assets/projects/motor-control/cubic-first.webp" alt="Cubic trajectory with Kp 42 Kd 28" loading="lazy">
+              <figcaption><b>Cubic</b>, Kp 42 · Kd 28 · Ki 0.02 (score 3.19°)</figcaption>
+            </figure>
+          </div>
+          <a class="btn" href="../files/motor_control_report.pdf" target="_blank" rel="noopener">View all test plots (PDF) ↗</a>
+        </section>
+
+        <section id="playground" class="reveal">
+          <h2><span class="num">05</span>Try it: PID playground</h2>
+          <p>This runs a simplified motor model in your browser using the same control law as my firmware. Move the sliders and the response updates live. The presets use the gains I tested on the real motor.</p>
+          <div class="demo">
+            <div class="demo-top">
+              <h3>Position loop simulator</h3>
+              <div class="seg">
+                <button data-traj="cubic" class="active">Cubic</button>
+                <button data-traj="step">Step</button>
+              </div>
+              <span class="score" id="pid-score">Score —</span>
+            </div>
+            <canvas id="pid-canvas" width="800" height="400" aria-label="Plot of reference and simulated motor angle"></canvas>
+            <div class="legend"><span><i style="background:#e0342b"></i>reference</span><span><i style="background:#2457d6"></i>simulated angle</span><span><i style="background:rgba(224,52,43,.25);height:10px"></i>error</span></div>
+            <div class="controls">
+              <div class="control"><label for="kp">Kp <output id="kp-out"></output></label><input type="range" id="kp" min="0" max="150" step="0.5" value="5"></div>
+              <div class="control"><label for="kd">Kd <output id="kd-out"></output></label><input type="range" id="kd" min="0" max="100" step="0.5" value="2"></div>
+              <div class="control"><label for="ki">Ki <output id="ki-out"></output></label><input type="range" id="ki" min="0" max="0.2" step="0.005" value="0"></div>
+            </div>
+            <div class="controls" style="margin-top:12px">
+              <div class="seg">
+                <button data-preset="5,2,0,step">First try</button>
+                <button data-preset="10,12,0.02,step">More Kp</button>
+                <button data-preset="42,28,0.02,cubic">Mid-tune</button>
+                <button data-preset="100,65,0.02,cubic">Final gains</button>
+              </div>
+            </div>
+            <p class="note">The model uses a first-order current loop, viscous damping and Coulomb friction, with constants fit to match the trends I measured. It's for intuition, not exact numbers.</p>
+          </div>
+        </section>
+
+        <section id="code" class="reveal">
+          <h2><span class="num">06</span>Code</h2>
+          <p>Firmware in C (Pico SDK) and the Python serial client. The highlighted excerpts are the two control-loop interrupt handlers.</p>
+          <div data-code-viewer>
+            <div class="code-tabs">
+              <button class="code-tab" data-src="../files/motor_control_main.c" data-from="72" data-to="144">current_control() · C</button>
+              <button class="code-tab" data-src="../files/motor_control_main.c" data-from="197" data-to="245">position_control() · C</button>
+              <button class="code-tab" data-src="../files/motor_control_main.c">main.c (full)</button>
+              <button class="code-tab" data-src="../files/motor_control_client.py">client.py</button>
+            </div>
+            <pre class="code">Loading…</pre>
+            <div class="code-actions">
+              <a class="btn" data-download href="#">Download file ↓</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="takeaways" class="reveal">
+          <h2><span class="num">07</span>Takeaways</h2>
+          <ul>
+            <li><b>Tune from the inside out.</b> The position loop only worked well after the current loop was fast and accurate.</li>
+            <li><b>Damping matters as much as stiffness.</b> Increasing Kd along with Kp brought the error from 19.8° down to 1.98°.</li>
+            <li><b>Log first, transmit later.</b> Buffering data in arrays kept serial communication from disturbing the 1 kHz loop timing.</li>
+            <li><b>Next time:</b> I'd add integrator anti-windup, filter the derivative term, and add feedforward from the trajectory velocity.</li>
+          </ul>
+        </section>
+
+        <a class="next" href="haptic-paddle.html">
+          <div><span class="eyebrow">Next project</span><strong>Haptic Paddle</strong></div>
+          <span class="arrow">→</span>
+        </a>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="wrap"><span>© <span data-year></span> Henry Acquaye</span><a href="../">Back to home</a></div></footer>
+  <button class="to-top" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <script src="../js/main.js"></script>
+  <script src="../js/pid-sim.js"></script>
+</body>
+</html>

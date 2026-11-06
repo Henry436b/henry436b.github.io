@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- ✏️ EDIT: your name + one-line description (shows in Google + link previews) -->
+  <title>Henry Acquaye — Mechanical Engineering Portfolio</title>
+  <meta name="description" content="Mechanical engineering student portfolio: mechatronics, feedback control, CAD and prototyping.">
+  <meta property="og:title" content="Henry Acquaye — Mechanical Engineering Portfolio">
+  <meta property="og:description" content="Mechatronics, feedback control, CAD and prototyping projects.">
+  <meta property="og:image" content="assets/projects/haptic-paddle/build-overview.webp">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <script>document.documentElement.dataset.theme = localStorage.getItem('theme') || 'dark';</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="./" aria-label="Home"><span class="logo-mark">HA</span></a>
+      <nav class="nav" aria-label="Main">
+        <a href="#projects">Work</a>
+        <a href="#skills">Skills</a>
+        <a href="#about">About</a>
+        <a href="files/resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </nav>
+      <button class="theme-btn" aria-label="Toggle light / dark theme">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <canvas class="scope" aria-hidden="true"></canvas>
+      <div class="wrap">
+        <div class="hero-grid">
+          <div class="reveal">
+            <!-- ✏️ EDIT -->
+            <span class="status"><i></i>Mechanical Engineering · Northwestern '28</span>
+            <h1>Henry<span class="line2">Acquaye<span class="accent">.</span></span></h1>
+            <p class="lede">
+              I build machines that sense, think and move. Right now I'm into
+              <span class="typed" data-words='["mechatronics","feedback control","haptics","embedded C","CAD & 3D printing"]'></span>
+            </p>
+            <div class="links">
+              <!-- ✏️ EDIT: add your resume at files/resume.pdf and fill in these links -->
+              <a class="btn primary" href="#projects">See my work ↓</a>
+              <a class="btn" href="files/resume.pdf" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>
+                Resume
+              </a>
+              <a class="btn" href="https://www.linkedin.com/in/your-handle" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.5c0-1.3-.02-3-1.83-3-1.84 0-2.12 1.43-2.12 2.9V21H9z"/></svg>
+                LinkedIn
+              </a>
+              <a class="btn" href="https://github.com/your-username" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+                GitHub
+              </a>
+              <a class="btn" href="mailto:you@example.com" aria-label="Email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                Email
+              </a>
+            </div>
+          </div>
+
+          <!-- ✏️ EDIT: swap for a real headshot (assets/img/profile.webp) -->
+          <div class="badge reveal">
+            <img src="assets/img/profile.webp" alt="Henry Acquaye" width="600" height="700">
+            <div class="badge-meta">
+              <div><strong>Henry Acquaye</strong><span>B.S. Mechanical Eng.<br>Northwestern University</span></div>
+              <em>ME</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="readout reveal">
+          <div><b>1<small>kHz</small></b><span>Inner current loop</span></div>
+          <div><b>1.98<small>°</small></b><span>Mean tracking error</span></div>
+          <div><b>±500<small>mA</small></b><span>Rendered haptic force</span></div>
+          <div><b>2<small>+</small></b><span>Builds, more coming</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PROJECTS ================= -->
+    <section class="section" id="projects">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow"><b>01</b> / Selected work</span>
+            <h2>Projects<span class="accent">.</span></h2>
+            <p>Click a project to see the full write-up, data and code. Hover to play the clip.</p>
+          </div>
+          <div class="filters" role="tablist" aria-label="Filter projects">
+            <button class="filter active" data-filter="all">All</button>
+            <button class="filter" data-filter="design">CAD</button>
+            <button class="filter" data-filter="controls">Controls</button>
+            <button class="filter" data-filter="analysis">Testing</button>
+            <button class="filter" data-filter="manufacturing">Fabrication</button>
+          </div>
+        </div>
+
+        <div class="grid">
+          <!--
+            ✏️ TO ADD A PROJECT: copy one <a class="card"> block below, change the link,
+            image, number, title, text and data-cat (any of: design controls analysis manufacturing).
+            Rows automatically alternate image left / right.
+          -->
+          <a class="card reveal" href="projects/haptic-paddle.html" data-cat="design controls manufacturing">
+            <div class="card-media">
+              <img src="assets/projects/haptic-paddle/build-overview.webp" alt="3D-printed haptic paddle with motor, breadboard and battery pack" loading="lazy">
+              <video src="assets/projects/haptic-paddle/preview.mp4" muted loop playsinline preload="none"></video>
+              <span class="badge-video">VIDEO</span>
+            </div>
+            <div class="card-body">
+              <span class="card-num">01</span>
+              <span class="eyebrow"><b>ME 433</b> · Advanced Mechatronics</span>
+              <h3>Haptic Paddle: Feeling Virtual Objects</h3>
+              <p>A 1-DOF force-feedback device that renders a virtual wall and bump you can feel. I did the CAD, 3D printing, electronics and firmware.</p>
+              <div class="card-tags"><span class="chip red">Fusion 360</span><span class="chip">Pico 2 W</span><span class="chip">Force rendering</span><span class="chip">3D printing</span></div>
+              <div class="card-meta"><span class="read">Read case study <span class="arrow">→</span></span></div>
+            </div>
+          </a>
+
+          <a class="card reveal" href="projects/motor-control.html" data-cat="controls analysis">
+            <div class="card-media">
+              <img src="assets/projects/motor-control/hardware.webp" alt="DC motor with encoder wired to a breadboard with Pico 2, H-bridge and current sensor" loading="lazy">
+              <video src="assets/projects/motor-control/preview.mp4" muted loop playsinline preload="none"></video>
+              <span class="badge-video">VIDEO</span>
+            </div>
+            <div class="card-body">
+              <span class="card-num">02</span>
+              <span class="eyebrow"><b>ME 333</b> · Mechatronics</span>
+              <h3>Closed-Loop DC Motor Control</h3>
+              <p>Cascaded current and position control on a Pico 2, with a Python client for tuning and plotting. It tracks a trajectory with under 2° of mean error.</p>
+              <div class="card-tags"><span class="chip red">C / Pico SDK</span><span class="chip">Python</span><span class="chip">Cascaded PID</span><span class="chip">Encoders</span></div>
+              <div class="card-meta"><span class="read">Read case study <span class="arrow">→</span></span></div>
+            </div>
+          </a>
+
+          <div class="card coming reveal" aria-hidden="true"><p>+ More projects on the way</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SKILLS ================= -->
+    <section class="section" id="skills">
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+          <span>Fusion 360</span><span>PID Control</span><span>Embedded C</span><span>Python</span><span>3D Printing</span><span>Haptics</span><span>Circuit Design</span><span>Sensor Integration</span>
+          <span>Fusion 360</span><span>PID Control</span><span>Embedded C</span><span>Python</span><span>3D Printing</span><span>Haptics</span><span>Circuit Design</span><span>Sensor Integration</span>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow"><b>02</b> / Toolbox</span>
+            <h2>Skills<span class="accent">.</span></h2>
+          </div>
+        </div>
+        <!-- ✏️ EDIT: add anything else you use (SolidWorks, MATLAB, ANSYS, machining…) -->
+        <div class="skills">
+          <div class="skill-box reveal">
+            <h3><small>01</small>Design &amp; Fabrication</h3>
+            <ul><li class="chip">Fusion 360</li><li class="chip">3D printing (FDM)</li><li class="chip">Mechanical assembly</li><li class="chip">Fixture design</li></ul>
+          </div>
+          <div class="skill-box reveal">
+            <h3><small>02</small>Controls</h3>
+            <ul><li class="chip">PID / PI</li><li class="chip">Cascaded loops</li><li class="chip">Trajectory tracking</li><li class="chip">Haptic rendering</li><li class="chip">Gain tuning</li></ul>
+          </div>
+          <div class="skill-box reveal">
+            <h3><small>03</small>Embedded &amp; Code</h3>
+            <ul><li class="chip">C (Pico SDK)</li><li class="chip">Python</li><li class="chip">pyserial</li><li class="chip">matplotlib</li><li class="chip">Timer interrupts</li><li class="chip">PWM</li><li class="chip">I²C</li></ul>
+          </div>
+          <div class="skill-box reveal">
+            <h3><small>04</small>Electronics</h3>
+            <ul><li class="chip">H-bridge drivers</li><li class="chip">Current sensing</li><li class="chip">Quadrature encoders</li><li class="chip">Load cells</li><li class="chip">Schematics</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow"><b>03</b> / About</span>
+            <h2>About<span class="accent">.</span></h2>
+          </div>
+        </div>
+        <div class="about">
+          <div class="reveal">
+            <!-- ✏️ EDIT: write 2–3 short paragraphs in your own voice -->
+            <p>I'm a mechanical engineering student who likes projects where mechanical design, electronics and code all have to work together. I enjoy the whole loop: sketching a part, printing it, wiring it, writing the firmware and then tuning until the data looks right.</p>
+            <p>Outside of class I'm interested in [your interests: robotics, design team, research, etc.]. I'm looking for [internship / co-op / research] opportunities for [season year].</p>
+          </div>
+          <div class="contact-card reveal">
+            <h3>Let's build something.</h3>
+            <p>Looking for internship and research opportunities. The fastest way to reach me is email.</p>
+            <a class="btn" href="mailto:you@example.com">you@example.com →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span data-year></span> Henry Acquaye</span>
+      <span>Hand-built · hosted on GitHub Pages</span>
+    </div>
+  </footer>
+
+  <button class="to-top" aria-label="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+  <script src="js/main.js"></script>
+</body>
+</html>
