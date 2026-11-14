@@ -5,54 +5,77 @@
 
   // ---- light / dark theme (choice is remembered)
   const root = document.documentElement;
-  if (!root.dataset.theme) root.dataset.theme = localStorage.getItem('theme') || 'dark';
+  if (!root.dataset.theme) root.dataset.theme = localStorage.getItem('theme-v2') || 'light';
   $$('.theme-btn').forEach(b => b.addEventListener('click', () => {
     root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('theme', root.dataset.theme);
+    localStorage.setItem('theme-v2', root.dataset.theme);
   }));
 
-  // ---- hero oscilloscope: red reference trace + a lagging "measured" trace, scrolling
-  const scope = $('.scope');
-  if (scope) {
-    const still = matchMedia('(prefers-reduced-motion: reduce)').matches; // draw one static frame
-    const g = scope.getContext('2d');
-    let W = 0, H = 0, t = 0, running = true;
+  // ---- hero flight path: a dashed trajectory with a small rocket that flies it (aerospace)
+  const flight = $('.flight');
+  if (flight) {
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const g = flight.getContext('2d');
+    let W = 0, H = 0, start = performance.now(), visible = true;
     const size = () => {
-      const r = scope.getBoundingClientRect(), d = devicePixelRatio || 1;
-      W = r.width; H = r.height; scope.width = W * d; scope.height = H * d; g.setTransform(d, 0, 0, d, 0, 0);
+      const r = flight.getBoundingClientRect(), d = devicePixelRatio || 1;
+      W = r.width; H = r.height; flight.width = W * d; flight.height = H * d; g.setTransform(d, 0, 0, d, 0, 0);
     };
-    // reference: smooth steps between levels (like a trajectory), measured: 2nd-order response
-    const ref = x => {
-      const p = ((x % 520) + 520) % 520, s = v => v * v * (3 - 2 * v);
-      if (p < 120) return 0; if (p < 200) return s((p - 120) / 80);
-      if (p < 330) return 1; if (p < 400) return 1 - 1.6 * s((p - 330) / 70);
-      if (p < 470) return -0.6; return -0.6 + 0.6 * s((p - 470) / 50);
+    // parabola from launch pad (left) through apogee to landing (right)
+    const pt = u => {
+      const x0 = W * 0.03, x1 = W * 0.97, base = H * 0.94, top = H * 0.2;
+      return [x0 + (x1 - x0) * u, base - (base - top) * 4 * u * (1 - u)];
     };
-    const draw = () => {
-      if (!running) return;
-      t += 0.9;
-      g.clearRect(0, 0, W, H);
+    const draw = now => {
       const css = getComputedStyle(root);
-      const accent = css.getPropertyValue('--accent').trim(), ink = css.getPropertyValue('--ink-2').trim();
-      const mid = H * 0.58, amp = H * 0.16;
-      // measured trace: simulate an underdamped follower along x
-      let y = ref(-t), v = 0;
-      for (let k = 0; k < 400; k++) { const e = ref(-t + k - 400) - y; v += e * 0.02 - v * 0.12; y += v; } // settle
-      g.lineWidth = 1.5; g.strokeStyle = ink; g.globalAlpha = 0.35; g.beginPath();
-      for (let x = 0; x <= W; x += 2) {
-        const e = ref(x - t) - y; v += (e * 0.02 - v * 0.12) * 2; y += v * 2;
-        const py = mid - y * amp; x ? g.lineTo(x, py) : g.moveTo(x, py);
+      const ink = css.getPropertyValue('--muted').trim(), accent = css.getPropertyValue('--accent').trim();
+      const u = still ? 0.5 : ((now - start) / 16000) % 1.25;      // 16 s flight, short pause, repeat
+      g.clearRect(0, 0, W, H);
+      // trajectory
+      g.setLineDash([2, 9]); g.lineCap = 'round'; g.lineWidth = 1.6; g.strokeStyle = ink; g.globalAlpha = 0.45;
+      g.beginPath(); for (let i = 0; i <= 80; i++) { const [x, y] = pt(i / 80); i ? g.lineTo(x, y) : g.moveTo(x, y); } g.stroke();
+      g.setLineDash([]);
+      // apogee marker
+      const [ax, ay] = pt(0.5);
+      g.globalAlpha = 0.55; g.lineWidth = 1; g.beginPath(); g.moveTo(ax - 7, ay); g.lineTo(ax + 7, ay); g.moveTo(ax, ay - 7); g.lineTo(ax, ay + 7); g.stroke();
+      g.font = '500 10px "IBM Plex Mono", monospace'; g.fillStyle = ink; g.fillText('APOGEE', ax + 12, ay - 8);
+      // flown part of the path, in red
+      const f = Math.min(1, u);
+      g.globalAlpha = 0.5; g.strokeStyle = accent; g.lineWidth = 1.5;
+      g.beginPath(); for (let i = 0; i <= 80; i++) { const [x, y] = pt(f * i / 80); i ? g.lineTo(x, y) : g.moveTo(x, y); } g.stroke();
+      // rocket, pointed along the path
+      if (u <= 1) {
+        const [x, y] = pt(f), [x2, y2] = pt(Math.min(1, f + 0.01)), a = Math.atan2(y2 - y, x2 - x);
+        g.save(); g.translate(x, y); g.rotate(a); g.globalAlpha = 1; g.fillStyle = accent;
+        g.beginPath(); g.moveTo(11, 0); g.quadraticCurveTo(4, -4, -7, -3.5); g.lineTo(-11, -8); g.lineTo(-9, 0); g.lineTo(-11, 8); g.lineTo(-7, 3.5); g.quadraticCurveTo(4, 4, 11, 0); g.fill();
+        g.restore();
       }
-      g.stroke();
-      g.globalAlpha = 0.55; g.strokeStyle = accent; g.lineWidth = 2; g.beginPath();
-      for (let x = 0; x <= W; x += 2) { const py = mid - ref(x - t) * amp; x ? g.lineTo(x, py) : g.moveTo(x, py); }
-      g.stroke(); g.globalAlpha = 1;
-      if (!still) requestAnimationFrame(draw);
+      g.globalAlpha = 1;
+      if (!still && visible) requestAnimationFrame(draw);
     };
-    size(); addEventListener('resize', () => { size(); if (still) draw(); });
-    if (!still) new IntersectionObserver(([e]) => { const was = running; running = e.isIntersecting; if (running && !was) draw(); }).observe(scope);
-    draw();
+    size();
+    addEventListener('resize', () => { size(); if (still) draw(0); });
+    if (!still) new IntersectionObserver(([e]) => { const was = visible; visible = e.isIntersecting; if (visible && !was) requestAnimationFrame(draw); }).observe(flight);
+    requestAnimationFrame(draw);
   }
+
+  // ---- gear pairs beside section headings turn as you scroll (mechatronics)
+  const gearPath = (teeth, r) => {
+    const ri = r * 0.78, n = teeth * 4; let d = '';
+    for (let i = 0; i < n; i++) {
+      const rad = (i % 4 < 2) ? r : ri, a = (i / n) * Math.PI * 2;
+      d += (i ? 'L' : 'M') + (rad * Math.cos(a)).toFixed(2) + ' ' + (rad * Math.sin(a)).toFixed(2);
+    }
+    return d + 'Z';
+  };
+  const gearSvg = (teeth, r) => `<svg width="${r * 2 + 4}" height="${r * 2 + 4}" viewBox="${-r - 2} ${-r - 2} ${r * 2 + 4} ${r * 2 + 4}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><g data-gear="${teeth}"><path d="${gearPath(teeth, r)}"/><circle r="${r * 0.3}"/></g></svg>`;
+  $$('.gears').forEach(el => (el.innerHTML = gearSvg(12, 15) + gearSvg(8, 10)));
+  const gearEls = $$('[data-gear]');
+  const turnGears = () => gearEls.forEach(gEl => {
+    const big = gEl.dataset.gear === '12';
+    gEl.setAttribute('transform', `rotate(${big ? scrollY * 0.12 : -scrollY * 0.18 + 22.5})`);  // 12:8 tooth ratio
+  });
+  if (gearEls.length) { addEventListener('scroll', turnGears, { passive: true }); turnGears(); }
 
   // ---- year in footer
   $$('[data-year]').forEach(el => (el.textContent = new Date().getFullYear()));
@@ -70,7 +93,11 @@
   };
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
-  top && top.addEventListener('click', () => scrollTo({ top: 0 }));
+  top && top.addEventListener('click', () => {
+    scrollTo({ top: 0 });
+    top.classList.add('launch');                       // the rocket takes off
+    setTimeout(() => top.classList.remove('launch', 'show'), 800);
+  });
 
   // ---- mobile menu
   const menuBtn = $('.menu-btn');

@@ -3,14 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- ✏️ EDIT: your name + one-line description (shows in Google + link previews) -->
   <title>Henry Acquaye — Mechanical Engineering Portfolio</title>
-  <meta name="description" content="Mechanical engineering student portfolio: mechatronics, feedback control, CAD and prototyping.">
+  <meta name="description" content="Henry Acquaye, mechanical engineering student at Northwestern. Robotics, mechatronics and rocketry projects.">
   <meta property="og:title" content="Henry Acquaye — Mechanical Engineering Portfolio">
-  <meta property="og:description" content="Mechatronics, feedback control, CAD and prototyping projects.">
-  <meta property="og:image" content="assets/projects/haptic-paddle/build-overview.webp">
+  <meta property="og:description" content="Robotics, mechatronics and rocketry projects.">
+  <meta property="og:image" content="https://henryacquaye.me/assets/projects/haptic-paddle/build-overview.webp">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-  <script>document.documentElement.dataset.theme = localStorage.getItem('theme') || 'dark';</script>
+  <script>document.documentElement.dataset.theme = localStorage.getItem('theme-v2') || 'light';</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -23,10 +22,10 @@
     <div class="wrap">
       <a class="logo" href="./" aria-label="Home"><span class="logo-mark">HA</span></a>
       <nav class="nav" aria-label="Main">
-        <a href="#projects">Work</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
         <a href="#skills">Skills</a>
-        <a href="#about">About</a>
-        <a href="files/resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="#contact">Contact</a>
       </nav>
       <button class="theme-btn" aria-label="Toggle light / dark theme">
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
@@ -38,55 +37,33 @@
   <main>
     <!-- ================= HERO ================= -->
     <section class="hero">
-      <canvas class="scope" aria-hidden="true"></canvas>
-      <div class="wrap">
-        <div class="hero-grid">
-          <div class="reveal">
-            <!-- ✏️ EDIT -->
-            <span class="status"><i></i>Mechanical Engineering · Northwestern '28</span>
-            <h1>Henry<span class="line2">Acquaye<span class="accent">.</span></span></h1>
-            <p class="lede">
-              I build machines that sense, think and move. Right now I'm into
-              <span class="typed" data-words='["mechatronics","feedback control","haptics","embedded C","CAD & 3D printing"]'></span>
-            </p>
-            <div class="links">
-              <!-- ✏️ EDIT: add your resume at files/resume.pdf and fill in these links -->
-              <a class="btn primary" href="#projects">See my work ↓</a>
-              <a class="btn" href="files/resume.pdf" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>
-                Resume
-              </a>
-              <a class="btn" href="https://www.linkedin.com/in/your-handle" target="_blank" rel="noopener" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.5c0-1.3-.02-3-1.83-3-1.84 0-2.12 1.43-2.12 2.9V21H9z"/></svg>
-                LinkedIn
-              </a>
-              <a class="btn" href="https://github.com/your-username" target="_blank" rel="noopener" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
-                GitHub
-              </a>
-              <a class="btn" href="mailto:you@example.com" aria-label="Email">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-                Email
-              </a>
-            </div>
-          </div>
-
-          <!-- ✏️ EDIT: swap for a real headshot (assets/img/profile.webp) -->
-          <div class="badge reveal">
-            <img src="assets/img/profile.webp" alt="Henry Acquaye" width="600" height="700">
-            <div class="badge-meta">
-              <div><strong>Henry Acquaye</strong><span>B.S. Mechanical Eng.<br>Northwestern University</span></div>
-              <em>ME</em>
-            </div>
+      <canvas class="flight" aria-hidden="true"></canvas>
+      <div class="wrap hero-grid">
+        <div class="reveal">
+          <span class="eyebrow"><b>●</b> Mechanical Engineering · Robotics · Northwestern '28</span>
+          <h1>Henry Acquaye</h1>
+          <p class="lede">I build <span class="typed" data-words='["robots that move.","rockets that fly.","control loops that settle.","payloads that land."]'></span></p>
+          <p class="sub">I'm a mechanical engineering student at Northwestern and Payload Subsystems Lead for NUSTARS, our rocketry team. I like projects where mechanical design, electronics and code all have to work together.</p>
+          <div class="links">
+            <a class="btn primary" href="#projects">See projects ↓</a>
+            <a class="btn" href="https://www.linkedin.com/in/Henry-Acquaye" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.5c0-1.3-.02-3-1.83-3-1.84 0-2.12 1.43-2.12 2.9V21H9z"/></svg>
+              LinkedIn
+            </a>
+            <a class="btn" href="https://github.com/henry436b" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+              GitHub
+            </a>
+            <a class="btn" href="mailto:henryacquaye2028@u.northwestern.edu">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              Email
+            </a>
           </div>
         </div>
-
-        <div class="readout reveal">
-          <div><b>1<small>kHz</small></b><span>Inner current loop</span></div>
-          <div><b>1.98<small>°</small></b><span>Mean tracking error</span></div>
-          <div><b>±500<small>mA</small></b><span>Rendered haptic force</span></div>
-          <div><b>2<small>+</small></b><span>Builds, more coming</span></div>
-        </div>
+        <figure class="portrait reveal">
+          <img src="assets/img/profile.webp" alt="Henry Acquaye standing next to a high-power rocket on a launch pad" width="782" height="842">
+          <figcaption>Launch day</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -96,118 +73,284 @@
         <div class="section-head reveal">
           <div>
             <span class="eyebrow"><b>01</b> / Selected work</span>
-            <h2>Projects<span class="accent">.</span></h2>
-            <p>Click a project to see the full write-up, data and code. Hover to play the clip.</p>
+            <h2>Projects <span class="gears" aria-hidden="true"></span></h2>
           </div>
           <div class="filters" role="tablist" aria-label="Filter projects">
             <button class="filter active" data-filter="all">All</button>
-            <button class="filter" data-filter="design">CAD</button>
-            <button class="filter" data-filter="controls">Controls</button>
-            <button class="filter" data-filter="analysis">Testing</button>
-            <button class="filter" data-filter="manufacturing">Fabrication</button>
+            <button class="filter" data-filter="mechatronics">Mechatronics</button>
+            <button class="filter" data-filter="aerospace">Aerospace</button>
+            <button class="filter" data-filter="mechanical">Mechanical</button>
           </div>
         </div>
 
         <div class="grid">
           <!--
-            ✏️ TO ADD A PROJECT: copy one <a class="card"> block below, change the link,
-            image, number, title, text and data-cat (any of: design controls analysis manufacturing).
-            Rows automatically alternate image left / right.
+            ✏️ TO ADD OR EDIT A PROJECT: each project is one "card" block below.
+            - data-cat: any of mechatronics, aerospace, mechanical (controls the filter)
+            - Swap the drawing for a photo: replace <div class="card-media art">…</div> with
+              <div class="card-media"><img src="assets/projects/NAME/photo.webp" alt="…"></div>
+            - To link a write-up page: change <article class="card" …> to <a class="card" href="projects/NAME.html" …>
           -->
-          <a class="card reveal" href="projects/haptic-paddle.html" data-cat="design controls manufacturing">
+
+          <!-- Featured: full case studies -->
+          <a class="card feat reveal" href="projects/haptic-paddle.html" data-cat="mechatronics">
             <div class="card-media">
               <img src="assets/projects/haptic-paddle/build-overview.webp" alt="3D-printed haptic paddle with motor, breadboard and battery pack" loading="lazy">
               <video src="assets/projects/haptic-paddle/preview.mp4" muted loop playsinline preload="none"></video>
               <span class="badge-video">VIDEO</span>
             </div>
             <div class="card-body">
-              <span class="card-num">01</span>
               <span class="eyebrow"><b>ME 433</b> · Advanced Mechatronics</span>
               <h3>Haptic Paddle: Feeling Virtual Objects</h3>
-              <p>A 1-DOF force-feedback device that renders a virtual wall and bump you can feel. I did the CAD, 3D printing, electronics and firmware.</p>
-              <div class="card-tags"><span class="chip red">Fusion 360</span><span class="chip">Pico 2 W</span><span class="chip">Force rendering</span><span class="chip">3D printing</span></div>
-              <div class="card-meta"><span class="read">Read case study <span class="arrow">→</span></span></div>
+              <p>A force-feedback device that renders a virtual wall and bump you can feel. I did the CAD, 3D printing, electronics and firmware.</p>
+              <div class="card-foot">
+                <div class="card-tags"><span class="chip">Onshape</span><span class="chip">Pico 2 W</span><span class="chip">C</span></div>
+                <span class="read">Case study →</span>
+              </div>
             </div>
           </a>
 
-          <a class="card reveal" href="projects/motor-control.html" data-cat="controls analysis">
+          <a class="card feat reveal" href="projects/motor-control.html" data-cat="mechatronics">
             <div class="card-media">
-              <img src="assets/projects/motor-control/hardware.webp" alt="DC motor with encoder wired to a breadboard with Pico 2, H-bridge and current sensor" loading="lazy">
+              <img src="assets/projects/motor-control/hardware.webp" alt="DC motor with encoder wired to a breadboard" loading="lazy">
               <video src="assets/projects/motor-control/preview.mp4" muted loop playsinline preload="none"></video>
               <span class="badge-video">VIDEO</span>
             </div>
             <div class="card-body">
-              <span class="card-num">02</span>
               <span class="eyebrow"><b>ME 333</b> · Mechatronics</span>
               <h3>Closed-Loop DC Motor Control</h3>
-              <p>Cascaded current and position control on a Pico 2, with a Python client for tuning and plotting. It tracks a trajectory with under 2° of mean error.</p>
-              <div class="card-tags"><span class="chip red">C / Pico SDK</span><span class="chip">Python</span><span class="chip">Cascaded PID</span><span class="chip">Encoders</span></div>
-              <div class="card-meta"><span class="read">Read case study <span class="arrow">→</span></span></div>
+              <p>Cascaded current and position control on a Pico 2, with a Python client for tuning. It tracks a trajectory with under 2° of mean error.</p>
+              <div class="card-foot">
+                <div class="card-tags"><span class="chip">C</span><span class="chip">Python</span><span class="chip">PID</span></div>
+                <span class="read">Case study →</span>
+              </div>
             </div>
           </a>
 
-          <div class="card coming reveal" aria-hidden="true"><p>+ More projects on the way</p></div>
+          <!-- Quadruped robot -->
+          <article class="card reveal" data-cat="mechatronics mechanical">
+            <div class="card-media art">
+              <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="58" y="42" width="84" height="26" rx="13"/>
+                <circle cx="156" cy="40" r="13"/><path d="M148 30l-2-10 9 6M162 28l5-9 3 11"/>
+                <path d="M58 52q-18-4-22-22"/>
+                <path d="M74 68 66 86 76 104M92 68 86 86 96 104M118 68l-6 18 10 18M134 68l-6 18 10 18"/>
+                <circle cx="66" cy="86" r="2.500"/><circle cx="86" cy="86" r="2.500"/><circle cx="112" cy="86" r="2.500"/><circle cx="128" cy="86" r="2.500"/>
+                <path class="hl" d="M100 42V26l20-10 12 8"/><circle class="hl" cx="100" cy="26" r="2.500"/><circle class="hl" cx="120" cy="16" r="2.500"/>
+                <path d="M20 108H180" stroke-dasharray="4 5"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <span class="eyebrow"><b>Personal</b> · 2026 – now</span>
+              <h3>Quadruped Robot "Cat" with Arm</h3>
+              <p>A four-legged robot with a manipulator arm. So far I've built a hind leg modeled on cat anatomy, with an elastic "tendon" for energy return, and filtered the servo control on a Pico.</p>
+              <div class="card-foot">
+                <div class="card-tags"><span class="chip">Onshape</span><span class="chip">CircuitPython</span></div>
+                <span class="status wip">In progress</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- NUSTARS: active drag system -->
+          <article class="card reveal" data-cat="aerospace mechanical">
+            <div class="card-media art">
+              <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M28 50H150q24 2 36 10-12 8-36 10H28z"/>
+                <path d="M28 50 12 34v52l16-16"/>
+                <path d="M92 50v20M112 50v20"/>
+                <path class="hl" d="M100 50 86 26M100 70 86 94"/><path class="hl" d="M86 26l10 2M86 94l10-2"/>
+                <path d="M192 30h-30M192 90h-30M70 16H44M70 104H44" stroke-dasharray="3 5"/>
+                <path d="M162 30l5-3M162 30l5 3M162 90l5-3M162 90l5 3"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <span class="eyebrow"><b>NUSTARS</b> · NASA Student Launch 2025</span>
+              <h3>Active Drag System (Air Brakes)</h3>
+              <p>An air brake payload that lets the rocket hit a target apogee. I worked on the Onshape design and milled the metal fins. Our team placed 10th of 53.</p>
+              <div class="card-foot">
+                <div class="card-tags"><span class="chip">Onshape</span><span class="chip">Milling</span></div>
+                <span class="status">Write-up soon</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- NUSTARS: payload protection + recovery -->
+          <article class="card reveal" data-cat="aerospace">
+            <div class="card-media art">
+              <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M56 46Q100-6 144 46q-11-8-22 0-11-8-22 0-11-8-22 0-11-8-22 0z"/>
+                <path d="M56 46 90 78M144 46 110 78M78 46l16 32M122 46l-16 32M100 46v32"/>
+                <rect class="hl" x="84" y="78" width="32" height="24" rx="4"/><circle class="hl" cx="100" cy="90" r="5.500"/>
+                <path d="M24 112H176" stroke-dasharray="4 5"/>
+                <path d="M150 70v30M150 100l-4-6M150 100l4-6"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <span class="eyebrow"><b>NUSTARS</b> · IREC 2026</span>
+              <h3>Payload Impact Protection &amp; Recovery</h3>
+              <p>As Payload Subsystems Lead, I designed protection for the payload's camera (7 lb landing at 18.4 ft/s) and a recovery sequence that separates 3–5 s before deployment.</p>
+              <div class="card-foot">
+                <div class="card-tags"><span class="chip">Onshape</span><span class="chip">Recovery</span></div>
+                <span class="status">Write-up soon</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- L1 certification rocket -->
+          <article class="card reveal" data-cat="aerospace">
+            <div class="card-media">
+              <img src="assets/projects/l1-rocket/cover.webp" alt="High-power rocket on the launch rail" loading="lazy">
+            </div>
+            <div class="card-body">
+              <span class="eyebrow"><b>Personal</b> · NAR certification</span>
+              <h3>Level 1 High-Power Rocket</h3>
+              <!-- ✏️ EDIT: add motor, altitude, build details -->
+              <p>The rocket I flew to earn my Level 1 High Power Certification from the National Association of Rocketry in July 2026. Level 2 is in progress.</p>
+              <div class="card-foot">
+                <div class="card-tags"><span class="chip">OpenRocket</span><span class="chip">NAR L1</span></div>
+                <span class="status">Write-up soon</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Formula SAE rockers -->
+          <article class="card reveal" data-cat="mechanical">
+            <div class="card-media art">
+              <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M52 92q-12-2-10-14L78 22q8-10 18-2l62 56q8 10-4 16z"/>
+                <circle cx="56" cy="80" r="7"/><circle cx="88" cy="32" r="7"/><circle class="hl" cx="146" cy="82" r="9"/><circle class="hl" cx="146" cy="82" r="2"/>
+                <path d="M84 70l14-18 20 18z"/>
+                <path d="M56 104h90M56 100v8M146 100v8" stroke-dasharray="0"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <span class="eyebrow"><b>Formula SAE</b> · Fall 2025</span>
+              <h3>Suspension Rockers for NFR25</h3>
+              <p>Co-designed the car's rear suspension rockers in SolidWorks. We cut weight 8.86% from the first design and used FEA to confirm the part was strong enough.</p>
+              <div class="card-foot">
+                <div class="card-tags"><span class="chip">SolidWorks</span><span class="chip">FEA</span></div>
+                <span class="status">Write-up soon</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Lightsaber -->
+          <article class="card reveal" data-cat="mechatronics mechanical">
+            <div class="card-media art">
+              <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <g transform="rotate(-18 100 60)">
+                  <rect x="18" y="52" width="70" height="16" rx="3"/>
+                  <path d="M30 52v16M36 52v16M42 52v16M48 52v16"/><rect x="58" y="48" width="12" height="6" rx="1.500"/>
+                  <path d="M88 50h8v20h-8z"/><path d="M18 56h-6v8h6"/>
+                  <path class="hl" d="M96 60H190" stroke-width="5"/>
+                </g>
+              </svg>
+            </div>
+            <div class="card-body">
+              <span class="eyebrow"><b>Personal</b></span>
+              <h3>Custom Lightsaber</h3>
+              <!-- ✏️ EDIT: describe the build (hilt, electronics, what you made) -->
+              <p>A lightsaber I designed and built for myself. Photos and build details are coming soon.</p>
+              <div class="card-foot">
+                <div class="card-tags"><span class="chip">Personal build</span></div>
+                <span class="status">Write-up soon</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Caliper -->
+          <article class="card reveal" data-cat="mechanical">
+            <div class="card-media art">
+              <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M50 30h70q30 0 30 30t-30 30H50q-12 0-12-12V42q0-12 12-12z"/>
+                <circle cx="120" cy="60" r="14"/><circle class="hl" cx="120" cy="60" r="3"/>
+                <circle cx="58" cy="46" r="5"/><circle cx="58" cy="74" r="5"/>
+                <path d="M38 104h112M38 99v10M150 99v10"/><path d="M168 30v60M163 30h10M163 90h10"/>
+                <path d="M120 38v-18M120 100V82M98 60H80M160 60h-18" stroke-dasharray="3 4"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <span class="eyebrow"><b>Design project</b></span>
+              <h3>Caliper</h3>
+              <!-- ✏️ EDIT: what it was for, tools used, results -->
+              <p>Details, CAD and photos for this project are coming soon.</p>
+              <div class="card-foot">
+                <div class="card-tags"><span class="chip">CAD</span></div>
+                <span class="status">Write-up soon</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EXPERIENCE ================= -->
+    <section class="section" id="experience">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow"><b>02</b> / Where I've worked</span>
+            <h2>Experience <span class="gears" aria-hidden="true"></span></h2>
+          </div>
+        </div>
+        <div class="xp">
+          <div class="xp-row reveal">
+            <div class="xp-when">Sep 2024 – Present<br>Evanston, IL</div>
+            <div>
+              <h3>Payload Subsystems Lead</h3>
+              <p class="org">NUSTARS · Northwestern University Space Technology and Rocketry Society</p>
+              <ul>
+                <li>Lead payload impact protection and recovery design for the 2026 International Rocket Engineering Competition.</li>
+                <li>Helped design the active drag system for the 2025 NASA Student Launch and milled its metal fins.</li>
+                <li>The team's rocket, Delphi, placed 10th out of 53 teams.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="xp-row reveal">
+            <div class="xp-when">Dec 2024 – Oct 2025<br>Evanston, IL</div>
+            <div>
+              <h3>Particle Astrophysics Research Assistant</h3>
+              <p class="org">Figueroa Group · Northwestern University · SuperCDMS</p>
+              <ul>
+                <li>Designed components of a cryogenic particle detector in SolidWorks for the Super Cryogenic Dark Matter Search.</li>
+                <li>Cleaned and analyzed 25 cesium and sodium calibration datasets in Jupyter Notebook.</li>
+                <li>Built diagnostic plots mapping which sensors detected particles, which revealed 2 malfunctioning sensors.</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ================= SKILLS ================= -->
     <section class="section" id="skills">
-      <div class="ticker" aria-hidden="true">
-        <div class="ticker-track">
-          <span>Fusion 360</span><span>PID Control</span><span>Embedded C</span><span>Python</span><span>3D Printing</span><span>Haptics</span><span>Circuit Design</span><span>Sensor Integration</span>
-          <span>Fusion 360</span><span>PID Control</span><span>Embedded C</span><span>Python</span><span>3D Printing</span><span>Haptics</span><span>Circuit Design</span><span>Sensor Integration</span>
-        </div>
-      </div>
       <div class="wrap">
         <div class="section-head reveal">
           <div>
-            <span class="eyebrow"><b>02</b> / Toolbox</span>
-            <h2>Skills<span class="accent">.</span></h2>
+            <span class="eyebrow"><b>03</b> / Toolbox</span>
+            <h2>Skills <span class="gears" aria-hidden="true"></span></h2>
           </div>
         </div>
-        <!-- ✏️ EDIT: add anything else you use (SolidWorks, MATLAB, ANSYS, machining…) -->
-        <div class="skills">
-          <div class="skill-box reveal">
-            <h3><small>01</small>Design &amp; Fabrication</h3>
-            <ul><li class="chip">Fusion 360</li><li class="chip">3D printing (FDM)</li><li class="chip">Mechanical assembly</li><li class="chip">Fixture design</li></ul>
-          </div>
-          <div class="skill-box reveal">
-            <h3><small>02</small>Controls</h3>
-            <ul><li class="chip">PID / PI</li><li class="chip">Cascaded loops</li><li class="chip">Trajectory tracking</li><li class="chip">Haptic rendering</li><li class="chip">Gain tuning</li></ul>
-          </div>
-          <div class="skill-box reveal">
-            <h3><small>03</small>Embedded &amp; Code</h3>
-            <ul><li class="chip">C (Pico SDK)</li><li class="chip">Python</li><li class="chip">pyserial</li><li class="chip">matplotlib</li><li class="chip">Timer interrupts</li><li class="chip">PWM</li><li class="chip">I²C</li></ul>
-          </div>
-          <div class="skill-box reveal">
-            <h3><small>04</small>Electronics</h3>
-            <ul><li class="chip">H-bridge drivers</li><li class="chip">Current sensing</li><li class="chip">Quadrature encoders</li><li class="chip">Load cells</li><li class="chip">Schematics</li></ul>
-          </div>
+        <div class="skills reveal">
+          <div class="skill-row"><h3>CAD</h3><ul><li class="chip">Siemens NX</li><li class="chip">SolidWorks</li><li class="chip">Onshape</li></ul></div>
+          <div class="skill-row"><h3>Simulation</h3><ul><li class="chip">Ansys Fluent</li><li class="chip">OpenRocket</li><li class="chip">FEA</li></ul></div>
+          <div class="skill-row"><h3>Languages</h3><ul><li class="chip">Python</li><li class="chip">MATLAB</li><li class="chip">C</li></ul></div>
+          <div class="skill-row"><h3>Tools</h3><ul><li class="chip">Jupyter Notebook</li><li class="chip">VS Code</li><li class="chip">Git</li></ul></div>
+          <div class="skill-row"><h3>Manufacturing</h3><ul><li class="chip">TIG welding</li><li class="chip">Manual &amp; conversational milling</li><li class="chip">3D printing</li></ul></div>
+          <div class="skill-row"><h3>Certifications</h3><ul><li class="chip red">NAR Level 1 High Power · Jul 2026</li><li class="chip">NAR Level 2 · in progress</li></ul></div>
         </div>
       </div>
     </section>
 
-    <!-- ================= ABOUT ================= -->
-    <section class="section" id="about">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <span class="eyebrow"><b>03</b> / About</span>
-            <h2>About<span class="accent">.</span></h2>
-          </div>
-        </div>
-        <div class="about">
-          <div class="reveal">
-            <!-- ✏️ EDIT: write 2–3 short paragraphs in your own voice -->
-            <p>I'm a mechanical engineering student who likes projects where mechanical design, electronics and code all have to work together. I enjoy the whole loop: sketching a part, printing it, wiring it, writing the firmware and then tuning until the data looks right.</p>
-            <p>Outside of class I'm interested in [your interests: robotics, design team, research, etc.]. I'm looking for [internship / co-op / research] opportunities for [season year].</p>
-          </div>
-          <div class="contact-card reveal">
-            <h3>Let's build something.</h3>
-            <p>Looking for internship and research opportunities. The fastest way to reach me is email.</p>
-            <a class="btn" href="mailto:you@example.com">you@example.com →</a>
-          </div>
+    <!-- ================= CONTACT ================= -->
+    <section class="contact" id="contact">
+      <div class="wrap reveal">
+        <span class="eyebrow"><b>04</b> / Contact</span>
+        <h2>Let's build something<span class="accent">.</span></h2>
+        <p>I'm looking for internship and research opportunities in robotics and aerospace. Email is the fastest way to reach me.</p>
+        <div class="links">
+          <a class="btn primary" href="mailto:henryacquaye2028@u.northwestern.edu">henryacquaye2028@u.northwestern.edu</a>
+          <a class="btn" href="https://www.linkedin.com/in/Henry-Acquaye" target="_blank" rel="noopener">LinkedIn ↗</a>
         </div>
       </div>
     </section>
@@ -216,13 +359,11 @@
   <footer class="site-footer">
     <div class="wrap">
       <span>© <span data-year></span> Henry Acquaye</span>
-      <span>Hand-built · hosted on GitHub Pages</span>
+      <span>Evanston, IL</span>
     </div>
   </footer>
 
-  <button class="to-top" aria-label="Back to top">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-  </button>
+  <button class="to-top" aria-label="Back to top"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2c3 2.5 4.5 6 4.5 10v4h-9v-4C7.5 8 9 4.5 12 2z"/><path d="M7.5 13 4 17v3l3.5-2M16.5 13 20 17v3l-3.5-2M10 19.5 12 22l2-2.5"/><circle cx="12" cy="9.5" r="1.6"/></svg></button>
   <script src="js/main.js"></script>
 </body>
 </html>
