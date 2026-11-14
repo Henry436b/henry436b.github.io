@@ -55,6 +55,7 @@
       <nav class="toc" aria-label="On this page">
         <a href="#overview">Overview</a>
         <a href="#design">Design</a>
+        <a href="#build">Build</a>
         <a href="#flight">Flight data</a>
         <a href="#eos">EOS flight computer</a>
         <a href="#launchday">What happened on launch day</a>
@@ -89,9 +90,35 @@
           </ul>
         </section>
 
+        <section id="build" class="reveal">
+          <h2><span class="num">03</span>Build</h2>
+          <p>After assembly, I painted the rocket in a black and red diamond pattern before taking it to the field.</p>
+          <div class="fig-row">
+            <figure class="figure">
+              <img class="zoomable" src="../assets/projects/l1-rocket/build-unpainted.webp" alt="Unpainted rocket standing on a workbench" loading="lazy">
+              <figcaption><b>Assembled.</b> The airframe and fins before paint.</figcaption>
+            </figure>
+            <figure class="figure">
+              <img class="zoomable" src="../assets/projects/l1-rocket/build-painted.webp" alt="Rocket painted black with red diamonds" loading="lazy">
+              <figcaption><b>Painted.</b> Ready for the launch.</figcaption>
+            </figure>
+            <figure class="figure">
+              <img class="zoomable" src="../assets/projects/l1-rocket/field-prep.webp" alt="Rocket resting on a foam cradle on a table at the launch field" loading="lazy">
+              <figcaption><b>Launch day.</b> On the prep table at the field.</figcaption>
+            </figure>
+          </div>
+        </section>
+
         <section id="flight" class="reveal">
-          <h2><span class="num">03</span>Flight data</h2>
+          <h2><span class="num">04</span>Flight data</h2>
           <p>The EasyMini altimeter recorded the whole flight. The motor burned for 2.4 seconds, the rocket coasted for another 8.8 seconds to apogee, and it landed 66.7 seconds after launch.</p>
+          <div class="video-split" style="margin:20px 0 28px">
+            <video src="../assets/projects/l1-rocket/launch.mp4" poster="../assets/projects/l1-rocket/launch-poster.webp" controls playsinline preload="metadata"></video>
+            <figure class="figure" style="margin:0">
+              <img class="zoomable" src="../assets/projects/l1-rocket/descent.webp" alt="Rocket descending under a yellow parachute" loading="lazy">
+              <figcaption><b>Liftoff and recovery.</b> The launch on video, and the rocket coming down under its parachute.</figcaption>
+            </figure>
+          </div>
           <div class="callouts">
             <div class="callout good"><b>2,888<small> ft</small></b><span>maximum height (880 m)</span></div>
             <div class="callout"><b>477<small> ft/s</small></b><span>maximum speed, Mach 0.4</span></div>
@@ -119,7 +146,7 @@
         </section>
 
         <section id="eos" class="reveal">
-          <h2><span class="num">04</span>EOS flight computer</h2>
+          <h2><span class="num">05</span>EOS flight computer</h2>
           <p>EOS is a flight data logger I wrote in CircuitPython for a Raspberry Pi Pico. It reads a BNO055 inertial sensor and a BMP3XX barometer and logs a row of data to a CSV file about six times a second.</p>
           <ul>
             <li><b>Calibration.</b> On startup it averages 5 seconds of pressure readings to set ground level.</li>
@@ -127,11 +154,15 @@
             <li><b>Altitude filter.</b> A complementary filter blends altitude integrated from the accelerometer with barometric altitude, so the estimate responds quickly without the barometer's noise.</li>
             <li><b>Status LED.</b> Slow blink means armed, ten quick flashes confirm launch, and fast blink means logging.</li>
           </ul>
+          <figure class="figure">
+            <img class="zoomable" src="../assets/projects/l1-rocket/eos-wiring.webp" alt="Wiring diagram: Raspberry Pi Pico connected to a barometer, an inertial sensor and a status LED" loading="lazy">
+            <figcaption><b>Wiring diagram.</b> The Pico with the barometer and inertial sensor on separate I²C buses, plus the status LED.</figcaption>
+          </figure>
           <p>I ran five logging tests while tuning the launch trigger and the filter in the days leading up to the flight.</p>
         </section>
 
         <section id="launchday" class="reveal">
-          <h2><span class="num">05</span>What happened on launch day</h2>
+          <h2><span class="num">06</span>What happened on launch day</h2>
           <p>EOS was working up until about 30 minutes before launch. Because its launch trigger is based on acceleration, our club president recommended raising the threshold so that handling the rocket on the pad couldn't arm it early and start a false data capture. I made the change at the field.</p>
           <p>EOS ended up recording no data from the flight. The EasyMini I flew as a backup worked, and every number on this page comes from it.</p>
           <div class="callouts">
@@ -141,7 +172,7 @@
         </section>
 
         <section id="code" class="reveal">
-          <h2><span class="num">06</span>Code</h2>
+          <h2><span class="num">07</span>Code</h2>
           <p>This is the version from my bench tests, before the launch-day threshold change.</p>
           <div data-code-viewer>
             <div class="code-tabs">
@@ -154,7 +185,7 @@
         </section>
 
         <section id="takeaways" class="reveal">
-          <h2><span class="num">07</span>Takeaways</h2>
+          <h2><span class="num">08</span>Takeaways</h2>
           <ul>
             <li><b>Always fly a backup.</b> The commercial altimeter is the only reason I have flight data.</li>
             <li><b>Re-test after every change.</b> A change made at the field, with no time for another test, is a risk even when the reasoning behind it is sound.</li>
