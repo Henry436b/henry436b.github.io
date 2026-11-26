@@ -114,7 +114,7 @@
             </figure>
             <figure class="figure">
               <img class="zoomable" src="../assets/projects/quadruped/v2-side.webp" alt="Version 2 leg from another angle" loading="lazy">
-              <figcaption><b>V2, standing.</b> The elastics hold the pose without any actuator.</figcaption>
+              <figcaption><b>V2, foot elastic engaged.</b> With the hip acting as a fixed point, the foot's rubber band pushes the whole leg up off the ground.</figcaption>
             </figure>
           </div>
         </section>
@@ -123,7 +123,7 @@
           <h2><span class="num">03</span>V3: tendon drive</h2>
           <p>V3 added servo motors and made two big changes:</p>
           <ul>
-            <li><b>A tendon instead of a bar.</b> A yarn tendon pulls the tibia remotely, replacing the stiff bar linkage.</li>
+            <li><b>A tendon instead of a bar.</b> A yarn tendon pulls the tibia remotely, replacing the stiff bar linkage. The yarn gives the leg a smaller profile, but it raises the problem of transmitting tension along a non-linear path. I'm doing research on a similar subject at the CRB lab at Northwestern, so I may come back to this design later.</li>
             <li><b>Moving the calf attachment.</b> In a real cat the gastrocnemius attaches to the femur. I moved its upper attachment to the tibia because testing showed it was a little more efficient there. I still need to test it across the foot's full range of motion to know whether that advantage is real or just a leftover of the first V3 layout.</li>
           </ul>
           <div class="demo">
@@ -157,7 +157,7 @@
             </figure>
             <figure class="figure">
               <img class="zoomable" src="../assets/projects/quadruped/electronics.webp" alt="LiPo battery, ESP32, perfboards and buck converters on a cutting mat" loading="lazy">
-              <figcaption><b>Electronics, version 1.</b> The LiPo, the ESP32 and expander boards, and two buck converters.</figcaption>
+              <figcaption><b>Electronics, version 1.</b> The LiPo, the ESP32 and expander chips, four H-bridges and two buck converters. I soldered the green protoboards and their components myself, and made most of the electronics removable so a broken part can be replaced without throwing out the whole board.</figcaption>
             </figure>
           </div>
           <h3>Problem: a short inside the servo</h3>
@@ -180,7 +180,7 @@
             <div class="arch-box now">
               <h4>Version 2: a brain in every limb</h4>
               <span class="eyebrow"><b>In progress</b></span>
-<pre class="tree"><b>Central brain</b>
+<pre class="tree"><b>Central brain · Pico 2 W</b> (leader)
 ├─ Leg 1 · <b>Pico 2 W</b> → hip, knee, ankle
 ├─ Leg 2 · <b>Pico 2 W</b> → hip, knee, ankle
 ├─ Leg 3 · <b>Pico 2 W</b> → hip, knee, ankle
@@ -189,7 +189,7 @@
             </div>
           </div>
           <p>For version 1, I put two MCP23008 GPIO expanders on an ESP32. That gave me enough pins for every joint and future sensors, plus Bluetooth. The problem was the current sensors: the INA219 boards I used only offer four I²C addresses, and four addresses on each of two buses caps the system at eight sensors. The legs alone need twelve, before the arm.</p>
-          <p>Version 2 gives each leg, and the arm, its own Pico 2 W, coordinated by one central brain. Each limb only needs three sensors on its own bus, so the address limit disappears, and adding a limb or a sensor later doesn't touch the rest of the system. It's a little like an octopus, whose arms each have their own cluster of neurons. I'm also planning XT connectors so each leg can be unplugged from power on its own.</p>
+          <p>Version 2 gives each leg, and the arm, its own Pico 2 W. A central Pico 2 W coordinates them in a leader–follower setup. Each limb only needs three sensors on its own bus, so the address limit disappears, and adding a limb or a sensor later doesn't touch the rest of the system. It's a little like an octopus, whose arms each have their own cluster of neurons. I'm also planning XT connectors so each leg can be unplugged from power on its own.</p>
         </section>
 
         <section id="next" class="reveal">
