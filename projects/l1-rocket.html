@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Level 1 High-Power Rocket — Henry Acquaye</title>
-  <meta name="description" content="My NAR Level 1 certification rocket: OpenRocket design, flight data from a 2,888 ft flight, and EOS, a Raspberry Pi Pico flight data logger.">
+  <meta name="description" content="My NAR Level 1 certification rocket: OpenRocket design, flight data from a 2,888 ft flight, and the EOS flight computer, a Raspberry Pi Pico flight data logger.">
   <meta property="og:image" content="https://henryacquaye.me/assets/projects/l1-rocket/cover.webp">
   <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
   <script>document.documentElement.dataset.theme = localStorage.getItem('theme-v2') || 'light';</script>
@@ -35,9 +35,9 @@
     <div class="crumbs"><a href="../#projects">← All projects</a></div>
 
     <section class="p-hero reveal">
-      <span class="eyebrow"><b>Personal</b> · Flown June 2026 · NAR Level 1 certified July 2026</span>
+      <span class="eyebrow"><b>Eye of Sauron (EOS)</b> · Personal · Flown June 2026 · NAR Level 1 certified July 2026</span>
       <h1>Level 1 High-Power Rocket</h1>
-      <p class="lede">The fiberglass rocket I designed in OpenRocket and flew on an H182 motor for my Level 1 High Power Certification. It reached 2,888 ft, within about 1% of my simulation. I also built EOS, a flight data logger based on a Raspberry Pi Pico, to fly in it.</p>
+      <p class="lede">The fiberglass rocket I designed in OpenRocket and flew on an H182 motor for my Level 1 High Power Certification. It reached 2,888 ft, within about 1% of my simulation. I also built the EOS flight computer, a Raspberry Pi Pico flight data logger, to fly in it.</p>
       <div class="chips">
         <span class="chip red">OpenRocket</span><span class="chip">AeroTech H182R</span><span class="chip">Fiberglass</span>
         <span class="chip">Raspberry Pi Pico</span><span class="chip">CircuitPython</span><span class="chip">BNO055 · BMP3XX</span>
@@ -147,7 +147,7 @@
 
         <section id="eos" class="reveal">
           <h2><span class="num">05</span>EOS flight computer</h2>
-          <p>EOS is a flight data logger I wrote in CircuitPython for a Raspberry Pi Pico. It reads a BNO055 inertial sensor and a BMP3XX barometer and logs a row of data to a CSV file about six times a second.</p>
+          <p>The EOS flight computer is a flight data logger I wrote in CircuitPython for a Raspberry Pi Pico. It reads a BNO055 inertial sensor and a BMP3XX barometer and logs a row of data to a CSV file about six times a second.</p>
           <ul>
             <li><b>Calibration.</b> On startup it averages 5 seconds of pressure readings to set ground level.</li>
             <li><b>Launch detection.</b> It arms, then waits for acceleration above a threshold on five readings in a row before it starts logging. This avoids filling the log while the rocket sits on the pad.</li>
@@ -163,10 +163,10 @@
 
         <section id="launchday" class="reveal">
           <h2><span class="num">06</span>What happened on launch day</h2>
-          <p>EOS was working up until about 30 minutes before launch. Because its launch trigger is based on acceleration, our club president recommended raising the threshold so that handling the rocket on the pad couldn't arm it early and start a false data capture. I made the change at the field.</p>
-          <p>EOS ended up recording no data from the flight. The EasyMini I flew as a backup worked, and every number on this page comes from it.</p>
+          <p>The EOS flight computer was working up until about 30 minutes before launch. Because its launch trigger is based on acceleration, our club president recommended raising the threshold so that handling the rocket on the pad couldn't arm it early and start a false data capture. I made the change at the field.</p>
+          <p>The flight computer ended up recording no data from the flight. The EasyMini I flew as a backup worked, and every number on this page comes from it.</p>
           <div class="callouts">
-            <div class="callout"><b>0</b><span>rows logged by EOS in flight</span></div>
+            <div class="callout"><b>0</b><span>rows logged by the flight computer</span></div>
             <div class="callout good"><b>66.7<small> s</small></b><span>of flight recorded by the backup altimeter</span></div>
           </div>
         </section>
@@ -190,7 +190,7 @@
             <li><b>Always fly a backup.</b> The commercial altimeter is the only reason I have flight data.</li>
             <li><b>Re-test after every change.</b> A change made at the field, with no time for another test, is a risk even when the reasoning behind it is sound.</li>
             <li><b>The simulation was trustworthy.</b> OpenRocket predicted the apogee to within about 1%, which gives me confidence using it for my Level 2 design.</li>
-            <li><b>Next for EOS:</b> a launch trigger that also uses barometric altitude, so it doesn't depend on a single acceleration threshold.</li>
+            <li><b>Next for the flight computer:</b> a launch trigger that also uses barometric altitude, so it doesn't depend on a single acceleration threshold.</li>
           </ul>
         </section>
 
