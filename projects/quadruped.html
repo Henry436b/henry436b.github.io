@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quadruped Robot “Cat” — Henry Acquaye</title>
+  <meta name="description" content="A biomimetic quadruped robot in progress: cat-inspired legs with elastic energy storage, tendon actuation, and current-sensing servo joints.">
+  <meta property="og:image" content="https://henryacquaye.me/assets/projects/quadruped/cover.webp">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <script>document.documentElement.dataset.theme = localStorage.getItem('theme-v2') || 'light';</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .stepper { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: center; }
+    .stepper img { border-radius: 14px; border: 1px solid var(--line); width: 100%; height: auto; }
+    .stepper .seg { margin-bottom: 14px; }
+    .stepper p { margin: 0; }
+    .versions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0; padding: 0; list-style: none; }
+    .versions li { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin: 0; max-width: none; }
+    .versions li::marker { content: ""; }
+    .versions b { display: block; font: 600 13px/1.3 var(--font-mono); color: var(--accent); }
+    .versions span { font-size: 13.5px; color: var(--ink-2); }
+    .versions li.next { border-style: dashed; background: transparent; }
+    .arch { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .arch-box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+    .arch-box.now { border-color: var(--accent); }
+    .arch-box h4 { margin: 0 0 4px; font: 600 15px/1.3 var(--font-display); }
+    .arch-box .eyebrow { display: block; margin-bottom: 12px; font-size: 11px; }
+    .tree { font: 12.5px/1.9 var(--font-mono); color: var(--ink-2); margin: 0; white-space: pre; overflow-x: auto; }
+    .tree b { color: var(--ink); font-weight: 600; }
+    @media (max-width: 760px) { .stepper, .arch { grid-template-columns: 1fr; } .versions { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="../" aria-label="Home"><span class="logo-mark">HA</span></a>
+      <nav class="nav" aria-label="Main">
+        <a href="../#projects" class="active">Projects</a>
+        <a href="../#experience">Experience</a>
+        <a href="../#skills">Skills</a>
+        <a href="../#contact">Contact</a>
+      </nav>
+      <button class="theme-btn" aria-label="Toggle light / dark theme">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="crumbs"><a href="../#projects">← All projects</a></div>
+
+    <section class="p-hero reveal">
+      <span class="eyebrow"><b>Personal</b> · June 2026 – present · <b>In progress</b></span>
+      <h1>Quadruped Robot “Cat”</h1>
+      <p class="lede">A four-legged robot with a manipulator arm, built around legs modeled on a cat's hind limb. Elastic "muscles" store energy so the robot can stand without loading its motors, and every joint senses its own current so it can estimate how hard it's pushing.</p>
+      <div class="chips">
+        <span class="chip red">Onshape</span><span class="chip">3D printing</span><span class="chip">Modified MG996R servos</span>
+        <span class="chip">INA219</span><span class="chip">DRV8833</span><span class="chip">ESP32 → Pico 2 W</span><span class="chip">CircuitPython</span>
+      </div>
+    </section>
+
+    <div class="specs reveal">
+      <div class="spec"><span class="eyebrow">Status</span><div>Leg V3 built and tested<br>V4 in design</div></div>
+      <div class="spec"><span class="eyebrow">Joints</span><div>Hip, knee and ankle per leg<br>12 for the legs, plus the arm</div></div>
+      <div class="spec"><span class="eyebrow">Power</span><div>7.4 V 5200 mAh LiPo<br>6 V and 5 V buck converters</div></div>
+      <div class="spec"><span class="eyebrow">Key idea</span><div>Passive standing, current-sensing joints</div></div>
+    </div>
+
+    <div class="p-layout">
+      <nav class="toc" aria-label="On this page">
+        <a href="#goal">The goal</a>
+        <a href="#legs">Leg versions</a>
+        <a href="#v3">V3: tendon drive</a>
+        <a href="#joints">Current-sensing joints</a>
+        <a href="#brains">From one brain to many</a>
+        <a href="#next">What's next</a>
+      </nav>
+
+      <article class="prose">
+        <section id="goal" class="reveal">
+          <h2><span class="num">01</span>The goal</h2>
+          <p>I want a quadruped that moves more like an animal than a typical hobby robot. That means two things. The legs should copy how a cat's hind limb works, with a femur, tibia and foot, and with elastic elements doing the job of muscles and tendons. And the joints should know how much force they're applying, so the robot can feel the ground instead of stepping blindly.</p>
+          <p>The project has a mechanical track (the leg) and an electronics track (the joints and the control system). I'm iterating on both in parallel.</p>
+        </section>
+
+        <section id="legs" class="reveal">
+          <h2><span class="num">02</span>Leg versions</h2>
+          <ul class="versions">
+            <li><b>V1</b><span>Popsicle-stick proof of concept</span></li>
+            <li><b>V2</b><span>Printed biomimetic leg with elastic muscles, no motors</span></li>
+            <li><b>V3</b><span>Servos added, yarn tendon drives the tibia</span></li>
+            <li class="next"><b>V4 · next</b><span>Stiff linkage with real springs</span></li>
+          </ul>
+
+          <h3>V1: proof of concept</h3>
+          <p>A quick build from popsicle sticks and a rubber band, just to check that the basic linkage would move the way I expected.</p>
+          <figure class="figure">
+            <img class="zoomable" src="../assets/projects/quadruped/v1.webp" alt="Version 1 leg made of popsicle sticks and a rubber band" loading="lazy" style="max-width:340px">
+            <figcaption><b>V1.</b> Popsicle sticks, a pin joint and a rubber band.</figcaption>
+          </figure>
+
+          <h3>V2: elastic muscles and passive standing</h3>
+          <p>V2 was the first printed leg and the first to test how a biomimetic leg would really behave. It has no motors. Rubber bands stand in for muscles: one acts as the gastrocnemius (the calf muscle) and others flex the toes and claws.</p>
+          <p>This version is where I started exploring passive energy storage. The idea is that in the resting posture, the elastics (eventually springs) hold the robot up with no load on the motors. The motors then have to work harder to bend the leg, but a quadruped spends a lot of its time standing, so I think the trade is worth it.</p>
+          <div class="fig-row">
+            <figure class="figure">
+              <img class="zoomable" src="../assets/projects/quadruped/v2.webp" alt="Version 2 printed leg with rubber bands as muscles" loading="lazy">
+              <figcaption><b>V2.</b> Femur, tibia and foot, with rubber-band muscles.</figcaption>
+            </figure>
+            <figure class="figure">
+              <img class="zoomable" src="../assets/projects/quadruped/v2-side.webp" alt="Version 2 leg from another angle" loading="lazy">
+              <figcaption><b>V2, standing.</b> The elastics hold the pose without any actuator.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section id="v3" class="reveal">
+          <h2><span class="num">03</span>V3: tendon drive</h2>
+          <p>V3 added servo motors and made two big changes:</p>
+          <ul>
+            <li><b>A tendon instead of a bar.</b> A yarn tendon pulls the tibia remotely, replacing the stiff bar linkage.</li>
+            <li><b>Moving the calf attachment.</b> In a real cat the gastrocnemius attaches to the femur. I moved its upper attachment to the tibia because testing showed it was a little more efficient there. I still need to test it across the foot's full range of motion to know whether that advantage is real or just a leftover of the first V3 layout.</li>
+          </ul>
+          <div class="demo">
+            <div class="demo-top">
+              <h3>V3 through its range of motion</h3>
+            </div>
+            <div class="stepper">
+              <img id="pose-img" src="../assets/projects/quadruped/v3-pose1.webp" alt="Version 3 leg with servos and a green yarn tendon" width="1000" height="1093">
+              <div>
+                <div class="seg" role="tablist" aria-label="Leg pose">
+                  <button class="active" data-pose="1">Position 1</button>
+                  <button data-pose="2">Position 2</button>
+                  <button data-pose="3">Position 3</button>
+                </div>
+                <p id="pose-text"></p>
+              </div>
+            </div>
+          </div>
+          <h3>The problem it revealed</h3>
+          <p>Testing showed a weakness in this exact setup. Past a certain angle, the tendon goes slack, and from then on the lower leg is controlled entirely by the rubber-band gastrocnemius. A tendon can only pull, so the motor loses control of the joint in that part of the range.</p>
+        </section>
+
+        <section id="joints" class="reveal">
+          <h2><span class="num">04</span>Current-sensing joints</h2>
+          <p>The joints use modified MG996R servos. I gutted a test servo down to its motor and potentiometer and reworked the inside to fit an INA219 current sensor. Each joint gets its own sensor, and each knee and ankle pair shares a DRV8833 H-bridge.</p>
+          <p>The idea comes from my <a href="haptic-paddle.html">ME 433 haptic paddle</a>. Motor torque is proportional to current, so a joint that knows its current can estimate how much force it's applying. That should make for a smoother gait, and it lets the robot sense contact with the ground instead of stepping blindly.</p>
+          <div class="fig-row">
+            <figure class="figure">
+              <img class="zoomable" src="../assets/projects/quadruped/modified-servo.webp" alt="Gutted MG996R servo with a current sensor fitted inside" loading="lazy" style="max-width:300px">
+              <figcaption><b>Modified servo.</b> Motor and potentiometer kept, with an INA219 fitted inside.</figcaption>
+            </figure>
+            <figure class="figure">
+              <img class="zoomable" src="../assets/projects/quadruped/electronics.webp" alt="LiPo battery, ESP32, perfboards and buck converters on a cutting mat" loading="lazy">
+              <figcaption><b>Electronics, version 1.</b> The LiPo, the ESP32 and expander boards, and two buck converters.</figcaption>
+            </figure>
+          </div>
+          <h3>Problem: a short inside the servo</h3>
+          <p>In the first modified servo, a short kept the current sensor from working, even after I insulated every conductive surface I could find. Fitting the sensor into the servo case cleanly is still an open problem.</p>
+          <p>On the software side, I wrote a low-pass filter on a Raspberry Pi Pico in CircuitPython to smooth the noisy potentiometer readings, which removed the servo jitter on the test leg.</p>
+        </section>
+
+        <section id="brains" class="reveal">
+          <h2><span class="num">05</span>From one brain to many</h2>
+          <p>The power system is a 7.4 V 5200 mAh LiPo feeding two buck converters: 6 V for the H-bridges and servos, and 5 V for the logic.</p>
+          <div class="arch">
+            <div class="arch-box">
+              <h4>Version 1: one central controller</h4>
+              <span class="eyebrow">Hit a hardware limit</span>
+<pre class="tree"><b>ESP32</b> (Bluetooth)
+├─ MCP23008 GPIO expander
+├─ MCP23008 GPIO expander
+└─ I²C bus ×2 → INA219 ×8 max</pre>
+            </div>
+            <div class="arch-box now">
+              <h4>Version 2: a brain in every limb</h4>
+              <span class="eyebrow"><b>In progress</b></span>
+<pre class="tree"><b>Central brain</b>
+├─ Leg 1 · <b>Pico 2 W</b> → hip, knee, ankle
+├─ Leg 2 · <b>Pico 2 W</b> → hip, knee, ankle
+├─ Leg 3 · <b>Pico 2 W</b> → hip, knee, ankle
+├─ Leg 4 · <b>Pico 2 W</b> → hip, knee, ankle
+└─ Arm   · <b>Pico 2 W</b></pre>
+            </div>
+          </div>
+          <p>For version 1, I put two MCP23008 GPIO expanders on an ESP32. That gave me enough pins for every joint and future sensors, plus Bluetooth. The problem was the current sensors: the INA219 boards I used only offer four I²C addresses, and four addresses on each of two buses caps the system at eight sensors. The legs alone need twelve, before the arm.</p>
+          <p>Version 2 gives each leg, and the arm, its own Pico 2 W, coordinated by one central brain. Each limb only needs three sensors on its own bus, so the address limit disappears, and adding a limb or a sensor later doesn't touch the rest of the system. It's a little like an octopus, whose arms each have their own cluster of neurons. I'm also planning XT connectors so each leg can be unplugged from power on its own.</p>
+        </section>
+
+        <section id="next" class="reveal">
+          <h2><span class="num">06</span>What's next</h2>
+          <ul>
+            <li><b>Leg V4.</b> Most likely a stiff bar linkage again, but with real springs for energy storage instead of rubber bands. That avoids the slack-tendon problem.</li>
+            <li><b>Servo modification.</b> Solving the short so the current sensor fits reliably inside the servo case.</li>
+            <li><b>Distributed control.</b> Building the per-limb Pico 2 W controllers and the central brain.</li>
+          </ul>
+        </section>
+
+        <a class="next" href="haptic-paddle.html">
+          <div><span class="eyebrow">Where the joint idea came from</span><strong>Haptic Paddle</strong></div>
+          <span class="arrow">→</span>
+        </a>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="wrap"><span>© <span data-year></span> Henry Acquaye</span><a href="../">Back to home</a></div></footer>
+  <button class="to-top" aria-label="Back to top"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2c3 2.5 4.5 6 4.5 10v4h-9v-4C7.5 8 9 4.5 12 2z"/><path d="M7.5 13 4 17v3l3.5-2M16.5 13 20 17v3l-3.5-2M10 19.5 12 22l2-2.5"/><circle cx="12" cy="9.5" r="1.6"/></svg></button>
+  <script src="../js/main.js"></script>
+  <script>
+    // V3 pose stepper
+    (() => {
+      const img = document.getElementById('pose-img'), text = document.getElementById('pose-text');
+      const notes = {
+        1: 'Position 1 of 3. The green yarn is the tendon, and the yellow rubber band is the gastrocnemius.',
+        2: 'Position 2 of 3, partway through the range of motion.',
+        3: 'Position 3 of 3. Past a certain angle, the tendon goes slack and the rubber band takes over.'
+      };
+      const buttons = document.querySelectorAll('[data-pose]');
+      const show = n => {
+        img.src = '../assets/projects/quadruped/v3-pose' + n + '.webp';
+        text.textContent = notes[n];
+        buttons.forEach(b => b.classList.toggle('active', b.dataset.pose === String(n)));
+      };
+      buttons.forEach(b => b.addEventListener('click', () => show(b.dataset.pose)));
+      [2, 3].forEach(n => { const i = new Image(); i.src = '../assets/projects/quadruped/v3-pose' + n + '.webp'; });
+      show(1);
+    })();
+  </script>
+</body>
+</html>
